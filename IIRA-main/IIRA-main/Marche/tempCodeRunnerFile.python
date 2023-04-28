@@ -1,0 +1,87 @@
+states = {'q0', 'q1', 'q2', 'q3', 'q4'}
+alphabet = {'a', 'b', 'c', 'd'}
+transactions = {
+    ('q0', 'b'): 'q0',
+    ('q0', 'c'): 'q0',
+    ('q0', 'd'): 'q0',
+    ('q0', 'a'): 'q1',
+    ('q1', 'c'): 'q0',
+    ('q1', 'd'): 'q0',
+    ('q1', 'a'): 'q1',
+    ('q1', 'b'): 'q2',
+    ('q2', 'a'): 'q2',
+    ('q2', 'b'): 'q2',
+    ('q2', 'd'): 'q2',
+    ('q2', 'c'): 'q3',
+    ('q3', 'c'): 'q3',
+    ('q3', 'a'): 'q2',
+    ('q3', 'b'): 'q2',
+    ('q3', 'd'): 'q4',
+    ('q4', 'a'): 'q4',
+    ('q4', 'b'): 'q4',
+    ('q4', 'c'): 'q4',
+    ('q4', 'd'): 'q4'
+}
+
+accepted_stat={'q4'}
+def simuler_afd(mot):
+    nb_etapes = 0
+    etat_courant = 'q0'
+    for caractere in mot:
+        nb_etapes += 1
+        
+        if etat_courant == 'q0':
+                if caractere == 'a':
+                    etat_courant = 'q1'
+                elif caractere == 'b':
+                    etat_courant = 'q0'
+                elif caractere == 'c':
+                    etat_courant = 'q0'
+                elif caractere == 'd':
+                    etat_courant = 'q0'
+        elif etat_courant == 'q1':
+                if caractere == 'a':
+                    etat_courant = 'q1'
+                elif caractere == 'b':
+                    etat_courant = 'q2'
+                elif caractere == 'c':
+                    etat_courant = 'q0'
+                elif caractere == 'd':
+                    etat_courant = 'q0'
+        elif etat_courant == 'q2':
+                if caractere == 'a':
+                    etat_courant = 'q2'
+                elif caractere == 'b':
+                    etat_courant = 'q2'
+                elif caractere == 'c':
+                    etat_courant = 'q3'
+                elif caractere == 'd':
+                    etat_courant = 'q2'
+        elif etat_courant == 'q3':
+                if caractere == 'a':
+                    etat_courant = 'q2'
+                elif caractere == 'b':
+                    etat_courant = 'q2'
+                elif caractere == 'c':
+                    etat_courant = 'q3'
+                elif caractere == 'd':
+                    etat_courant = 'q4'
+        elif etat_courant == 'q4':
+                if caractere == 'a':
+                    etat_courant = 'q4'
+                elif caractere == 'b':
+                    etat_courant = 'q4'
+                elif caractere == 'c':
+                    etat_courant = 'q4'
+                elif caractere == 'd':
+                    etat_courant = 'q4'
+    if etat_courant == 'q4':
+        
+        return (nb_etapes, True)
+    else:
+        
+        return (nb_etapes, False)
+    
+mot = "cdbaabbcdb"
+nb_etapes, resultat = simuler_afd(mot)
+print("Le mot '{}' a été {} après {} étapes".format(mot, "accepté" if resultat else "rejeté", nb_etapes))
